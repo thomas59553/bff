@@ -96,33 +96,48 @@ document.addEventListener('DOMContentLoaded', () => {
         displayProducts(filteredProducts);
     };
 
-    // Afficher les détails du produit
-    const showProductDetails = (product) => {
-        productList.style.display = 'none';
-        productDetail.style.display = 'block';
-        searchContainer.style.display = 'none'; // Cacher la recherche et le filtre
+// Afficher les détails du produit
+const showProductDetails = (product) => {
+    productList.style.display = 'none';
+    productDetail.style.display = 'block';
+    searchContainer.style.display = 'none'; // Cacher la recherche et le filtre
 
-        // Détails du produit
-        document.getElementById('detail-img').src = product['URL Photo'];
-        document.getElementById('detail-img').alt = product['Nom Produit'];
-        document.getElementById('detail-title').textContent = product['Nom Produit'];
-        document.getElementById('detail-client').textContent = product['Nom Client'];
-        document.getElementById('detail-version').textContent = product['Version'];
-        document.getElementById('detail-modele-boite').textContent = product['Modèle Boite'];
-        document.getElementById('detail-quantite-boite').textContent = product['Qté Par Boite'];
-        document.getElementById('detail-modele-carton').textContent = product['Modèle Carton'];
-        document.getElementById('detail-quantite-carton').textContent = product['Qté par carton'];
-        document.getElementById('detail-duree-ddm').textContent = product['Durée DDM'];
-        document.getElementById('detail-ddm').textContent = product['DDM'];
-        document.getElementById('detail-fiche').href = product['Fiche Pdf'];
+    // Détails du produit
+    document.getElementById('detail-img').src = product['URL Photo'];
+    document.getElementById('detail-img').alt = product['Nom Produit'];
+    document.getElementById('detail-title').textContent = product['Nom Produit'];
 
-        // Mise à jour des breadcrumbs
-        const breadcrumbProduct = document.createElement('li');
-        breadcrumbProduct.className = 'breadcrumb-item active';
-        breadcrumbProduct.setAttribute('aria-current', 'page');
-        breadcrumbProduct.textContent = product['Nom Produit'];
-        breadcrumb.appendChild(breadcrumbProduct);
+    // Fonction pour afficher ou masquer les champs
+    const setDetailField = (fieldId, value) => {
+        const fieldContainer = document.getElementById(`${fieldId}-container`);
+        const fieldSpan = document.getElementById(fieldId);
+        if (value) {
+            fieldSpan.textContent = value;
+            fieldContainer.style.display = 'block';
+        } else {
+            fieldContainer.style.display = 'none';
+        }
     };
+
+    setDetailField('detail-client', product['Nom Client']);
+    setDetailField('detail-version', product['Version']);
+    setDetailField('detail-modele-boite', product['Modèle Boite']);
+    setDetailField('detail-quantite-boite', product['Qté Par Boite']);
+    setDetailField('detail-modele-carton', product['Modèle Carton']);
+    setDetailField('detail-quantite-carton', product['Qté par carton']);
+    setDetailField('detail-duree-ddm', product['Durée DDM']);
+    setDetailField('detail-ddm', product['DDM']);
+
+    document.getElementById('detail-fiche').href = product['Fiche Pdf'];
+
+    // Mise à jour des breadcrumbs
+    const breadcrumbProduct = document.createElement('li');
+    breadcrumbProduct.className = 'breadcrumb-item active';
+    breadcrumbProduct.setAttribute('aria-current', 'page');
+    breadcrumbProduct.textContent = product['Nom Produit'];
+    breadcrumb.appendChild(breadcrumbProduct);
+};
+
 
     // Retour à la liste des produits
     const returnToProductList = () => {
