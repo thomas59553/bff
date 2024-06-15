@@ -120,25 +120,22 @@ document.addEventListener('DOMContentLoaded', () => {
         breadcrumbProduct.setAttribute('aria-current', 'page');
         breadcrumbProduct.textContent = product['Nom Produit'];
         breadcrumb.appendChild(breadcrumbProduct);
-
-        // Réactiver les événements de recherche et de filtrage
-        searchInput.addEventListener('input', () => filterAndSearchProducts(products));
-        clientFilter.addEventListener('change', () => filterAndSearchProducts(products));
     };
 
     // Retour à la liste des produits
-    document.getElementById('breadcrumb-home').addEventListener('click', (e) => {
-        e.preventDefault();
+    const returnToProductList = () => {
         productList.style.display = 'block';
         productDetail.style.display = 'none';
         const lastBreadcrumb = breadcrumb.lastChild;
         if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Conditionnement') {
             breadcrumb.removeChild(lastBreadcrumb);
         }
+        filterAndSearchProducts(products);  // Mettre à jour l'affichage avec les filtres et la recherche actifs
+    };
 
-        // Réactiver les événements de recherche et de filtrage
-        searchInput.addEventListener('input', () => filterAndSearchProducts(products));
-        clientFilter.addEventListener('change', () => filterAndSearchProducts(products));
+    document.getElementById('breadcrumb-home').addEventListener('click', (e) => {
+        e.preventDefault();
+        returnToProductList();
     });
 
     // Charger les données au démarrage
