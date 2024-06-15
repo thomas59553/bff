@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const productList = document.getElementById('product-list');
     const searchInput = document.getElementById('search-input');
     const clientFilter = document.getElementById('client-filter');
+    const productDetail = document.getElementById('product-detail');
+    const breadcrumb = document.getElementById('breadcrumb');
 
     // Fonction pour charger les données JSON
     const loadData = async () => {
@@ -52,11 +54,10 @@ document.addEventListener('DOMContentLoaded', () => {
             clientName.textContent = client;
             clientGroup.appendChild(clientName);
 
-            const clientProducts = groupedProducts[client];
             const row = document.createElement('div');
             row.className = 'row';
 
-            clientProducts.forEach(product => {
+            groupedProducts[client].forEach(product => {
                 const productCard = document.createElement('div');
                 productCard.className = 'col-md-4 mb-4';
                 productCard.innerHTML = `
@@ -93,41 +94,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Afficher les détails du produit
     const showProductDetails = (product) => {
-        const detailPage = window.open('', '_blank');
-        detailPage.document.write(`
-            <html>
-            <head>
-                <title>${product['Nom Produit']}</title>
-                <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-            </head>
-            <body>
-                <div class="container mt-5">
-                    <nav aria-label="breadcrumb">
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#" onclick="window.close()">Catalogue des Produits</a></li>
-                            <li class="breadcrumb-item active" aria-current="page">${product['Nom Produit']}</li>
-                        </ol>
-                    </nav>
-                    <div class="card">
-                        <img src="${product['URL Photo']}" class="card-img-top" alt="${product['Nom Produit']}">
-                        <div class="card-body">
-                            <h5 class="card-title">${product['Nom Produit']}</h5>
-                            <p class="card-text"><strong>Client:</strong> ${product['Nom Client']}</p>
-                            <p class="card-text"><strong>Version:</strong> ${product['Version']}</p>
-                            <p class="card-text"><strong>Modèle Boîte:</strong> ${product['Modèle Boite']}</p>
-                            <p class="card-text"><strong>Quantité par boîte:</strong> ${product['Qté Par Boite']}</p>
-                            <p class="card-text"><strong>Modèle Carton:</strong> ${product['Modèle Carton']}</p>
-                            <p class="card-text"><strong>Quantité par carton:</strong> ${product['Qté par carton']}</p>
-                            <p class="card-text"><strong>Durée DDM:</strong> ${product['Durée DDM']}</p>
-                            <p class="card-text"><strong>DDM:</strong> ${product['DDM']}</p>
-                            <a href="${product['Fiche Pdf']}" class="btn btn-primary" target="_blank">Voir la fiche Pdf</a>
-                        </div>
-                    </div>
-                </div>
-            </body>
-            </html>
-        `);
+        productList.style.display = 'none';
+        productDetail.style.display = 'block';
+        document.getElementById('detail-img').src = product['URL Photo'];
+        document.getElementById('detail-img').alt = product['Nom Produit'];
+        document.getElementById('detail-title').textContent = product['Nom Produit'];
+        document.getElementById('detail-client').textContent = product['Nom Client'];
+        document.getElementById('detail-version').textContent = product['Version'];
+        document.getElementById('detail-modele-boite').textContent = product['Modèle Boite'];
+        document.getElementById('detail-quantite-boite').textContent = product['Qté Par Boite'];
+        document.getElementById('detail-modele-carton').textContent = product['Modèle Carton'];
+        document.getElementById('detail-quantite-carton').textContent = product['Qté par carton'];
+        document.getElementById('detail-duree-ddm').textContent = product['Durée DDM'];
+        document.getElementById('detail-ddm').textContent = product['DDM'];
+        document.getElementById('detail-fiche').href = product['Fiche Pdf'];
+
+        const breadcrumbProduct = document.createElement('li');
+        breadcrumbProduct.className = 'breadcrumb-item active';
+        breadcrumbProduct.setAttribute('aria-current', 'page');
+        breadcrumbProduct.textContent = product['Nom Produit'];
+        breadcrumb.appendChild(breadcrumbProduct);
     };
+
+    // Retour à la liste des produits
+    document.getElementById('breadcrumb-home').addEventListener('click', (e) => {
+        e.preventDefault();
+        productList.style.display = 'block';
+        productDetail.style.display = 'none';
+        const lastBreadcrumb = breadcrumb.lastChild;
+        if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Accueil') {
+            breadcrumb.removeChild(lastBreadcrumb);
+        }
+    });
 
     // Charger les données au démarrage
     loadData();
