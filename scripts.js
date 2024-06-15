@@ -154,7 +154,34 @@ const showProductDetails = (product) => {
             additionalDetailsContainer.appendChild(colDiv);
         }
     });
+// Vérifier si au moins un autre paramètre existe
+    let hasAdditionalParams = false;
+    additionalFields.forEach(field => {
+        if (field.value) {
+            hasAdditionalParams = true;
+        }
+    });
 
+    // Si au moins un autre paramètre existe, ajouter le titre et les champs
+    if (hasAdditionalParams) {
+        const title = document.createElement('h6');
+        title.textContent = 'Autres Paramètres';
+        additionalDetailsSection.appendChild(title);
+
+        const additionalDetailsContainer = document.createElement('div');
+        additionalDetailsContainer.className = 'row';
+
+        additionalFields.forEach(field => {
+            if (field.value) {
+                const colDiv = document.createElement('div');
+                colDiv.className = 'col-lg-3 col-md-4 col-sm-6 mb-2';
+                colDiv.innerHTML = `<p class="card-text"><strong>${field.label}:</strong> <span>${field.value}</span></p>`;
+                additionalDetailsContainer.appendChild(colDiv);
+            }
+        });
+
+        additionalDetailsSection.appendChild(additionalDetailsContainer);
+    }
     document.getElementById('detail-fiche').href = product['Fiche Pdf'];
 
     // Mise à jour des breadcrumbs
