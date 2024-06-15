@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
 };
 
         additionalDetailsSection.appendChild(additionalDetailsContainer);
-    }
+  
 
     document.getElementById('detail-fiche').href = product['Fiche Pdf'];
 
