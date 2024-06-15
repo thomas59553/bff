@@ -53,13 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Filtrage et recherche des produits
+  // Filtrage et recherche des produits
     const filterAndSearchProducts = (products) => {
         const searchText = searchInput.value.toLowerCase();
         const selectedClient = clientFilter.value;
         const filteredProducts = products.filter(product => {
-            return (product['Nom Produit'].toLowerCase().includes(searchText) &&
-                (selectedClient === '' || product['Nom Client'] === selectedClient));
+            const productName = product['Nom Produit'] ? product['Nom Produit'].toLowerCase() : '';
+            const clientName = product['Nom Client'] || '';
+            return (productName.includes(searchText) &&
+                (selectedClient === '' || clientName === selectedClient));
         });
         displayProducts(filteredProducts);
     };
