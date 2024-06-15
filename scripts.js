@@ -116,6 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'detail-quantite-carton', label: 'Quantité par carton', value: product['Qté par carton'] },
         { id: 'detail-duree-ddm', label: 'Durée DDM', value: product['Durée DDM'] },
         { id: 'detail-ddm', label: 'DDM', value: product['DDM'] },
+        { id: 'detail-fiche-pdf', label: 'Fiche PDF', value: product['Fiche Pdf'] },
         { id: 'detail-produit-1', label: 'Produit 1', value: product['Produit 1'] },
         { id: 'detail-produit-2', label: 'Produit 2', value: product['Produit 2'] },
         { id: 'detail-produit-3', label: 'Produit 3', value: product['Produit 3'] },
