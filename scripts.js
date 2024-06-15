@@ -151,6 +151,7 @@ const showProductDetails = (product) => {
             const colDiv = document.createElement('div');
             colDiv.className = 'col-lg-3 col-md-4 col-sm-6 mb-2';
             colDiv.innerHTML = `<p class="card-text"><strong>${field.label}:</strong> <span>${field.value}</span></p>`;
+            additionalDetailsContainer.appendChild("<h6>Autres Paramètres</h6>");
             additionalDetailsContainer.appendChild(colDiv);
         }
     });
