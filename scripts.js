@@ -102,7 +102,12 @@ document.addEventListener('DOMContentLoaded', () => {
             </head>
             <body>
                 <div class="container mt-5">
-                    <button class="btn btn-secondary mb-4" onclick="window.history.back()">Retour</button>
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#" onclick="window.close()">Catalogue des Produits</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">${product['Nom Produit']}</li>
+                        </ol>
+                    </nav>
                     <div class="card">
                         <img src="${product['URL Photo']}" class="card-img-top" alt="${product['Nom Produit']}">
                         <div class="card-body">
