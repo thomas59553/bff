@@ -157,9 +157,9 @@ const showProductDetails = (product) => {
 
     // Si au moins un produit est présent, ajouter le titre et les champs
     if (hasComposition) {
-        const title = document.createElement('h5');
-        title.className = 'card-text';
-        title.textContent = 'Composition';
+         const title = document.createElement('h5');
+        title.textContent = 'Autres Paramètres';
+        title.className = 'text-center mt-4'; // Centré et avec une marge en haut
         compositionContainer.appendChild(title);
 
         const compositionDetailsContainer = document.createElement('div');
