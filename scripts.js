@@ -1,31 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const products = [
-        // Les données JSON ici (copier/coller les données de votre fichier JSON)
-    ];
-
     const productList = document.getElementById('product-list');
     const searchInput = document.getElementById('search-input');
     const clientFilter = document.getElementById('client-filter');
 
-    // Remplir le filtre de clients
-    const clients = [...new Set(products.map(product => product['Nom Client']))];
-    clients.forEach(client => {
-        const option = document.createElement('option');
-        option.value = client;
-        option.textContent = client;
-        clientFilter.appendChild(option);
-    });
+    // Fonction pour charger les données JSON
+    const loadData = async () => {
+        try {
+            const response = await fetch('data.json');
+            const products = await response.json();
+            displayProducts(products);
+
+            // Remplir le filtre de clients
+            const clients = [...new Set(products.map(product => product['Nom Client']))];
+            clients.forEach(client => {
+                const option = document.createElement('option');
+                option.value = client;
+                option.textContent = client;
+                clientFilter.appendChild(option);
+            });
+
+            // Événements pour la recherche et le filtrage
+            searchInput.addEventListener('input', () => filterAndSearchProducts(products));
+            clientFilter.addEventListener('change', () => filterAndSearchProducts(products));
+        } catch (error) {
+            console.error('Erreur lors du chargement des données:', error);
+        }
+    };
 
     // Fonction pour afficher les produits
-    const displayProducts = (filteredProducts) => {
+    const displayProducts = (products) => {
         productList.innerHTML = '';
-        filteredProducts.forEach(product => {
+        products.forEach(product => {
             const productCard = document.createElement('div');
             productCard.className = 'product-card';
             productCard.innerHTML = `
                 <img src="${product['URL Photo']}" alt="${product['Nom Produit']}">
                 <h3>${product['Nom Produit']}</h3>
                 <p>Client: ${product['Nom Client']}</p>
+                <p>Version: ${product['Version']}</p>
+                <p>Modèle Boîte: ${product['Modèle Boite']}</p>
+                <p>Quantité par boîte: ${product['Qté Par Boite']}</p>
+                <p>Modèle Carton: ${product['Modèle Carton']}</p>
+                <p>Quantité par carton: ${product['Qté par carton']}</p>
+                <p>Durée DDM: ${product['Durée DDM']}</p>
+                <p>DDM: ${product['DDM']}</p>
                 <a href="${product['Fiche Pdf']}" target="_blank">Voir la fiche produit</a>
             `;
             productList.appendChild(productCard);
@@ -33,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Filtrage et recherche des produits
-    const filterAndSearchProducts = () => {
+    const filterAndSearchProducts = (products) => {
         const searchText = searchInput.value.toLowerCase();
         const selectedClient = clientFilter.value;
         const filteredProducts = products.filter(product => {
@@ -43,10 +61,6 @@ document.addEventListener('DOMContentLoaded', () => {
         displayProducts(filteredProducts);
     };
 
-    // Événements pour la recherche et le filtrage
-    searchInput.addEventListener('input', filterAndSearchProducts);
-    clientFilter.addEventListener('change', filterAndSearchProducts);
-
-    // Afficher tous les produits au chargement
-    displayProducts(products);
+    // Charger les données au démarrage
+    loadData();
 });
