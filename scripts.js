@@ -92,40 +92,52 @@ document.addEventListener('DOMContentLoaded', () => {
         displayProducts(filteredProducts);
     };
 
-    // Afficher les détails du produit
-    const showProductDetails = (product) => {
-        productList.style.display = 'none';
-        productDetail.style.display = 'block';
-        document.getElementById('detail-img').src = product['URL Photo'];
-        document.getElementById('detail-img').alt = product['Nom Produit'];
-        document.getElementById('detail-title').textContent = product['Nom Produit'];
-        document.getElementById('detail-client').textContent = product['Nom Client'];
-        document.getElementById('detail-version').textContent = product['Version'];
-        document.getElementById('detail-modele-boite').textContent = product['Modèle Boite'];
-        document.getElementById('detail-quantite-boite').textContent = product['Qté Par Boite'];
-        document.getElementById('detail-modele-carton').textContent = product['Modèle Carton'];
-        document.getElementById('detail-quantite-carton').textContent = product['Qté par carton'];
-        document.getElementById('detail-duree-ddm').textContent = product['Durée DDM'];
-        document.getElementById('detail-ddm').textContent = product['DDM'];
-        document.getElementById('detail-fiche').href = product['Fiche Pdf'];
+// Ajouter les événements pour la recherche et le filtrage dans la fonction showProductDetails
+const showProductDetails = (product) => {
+    productList.style.display = 'none';
+    productDetail.style.display = 'block';
 
-        const breadcrumbProduct = document.createElement('li');
-        breadcrumbProduct.className = 'breadcrumb-item active';
-        breadcrumbProduct.setAttribute('aria-current', 'page');
-        breadcrumbProduct.textContent = product['Nom Produit'];
-        breadcrumb.appendChild(breadcrumbProduct);
-    };
+    // Détails du produit
+    document.getElementById('detail-img').src = product['URL Photo'];
+    document.getElementById('detail-img').alt = product['Nom Produit'];
+    document.getElementById('detail-title').textContent = product['Nom Produit'];
+    document.getElementById('detail-client').textContent = product['Nom Client'];
+    document.getElementById('detail-version').textContent = product['Version'];
+    document.getElementById('detail-modele-boite').textContent = product['Modèle Boite'];
+    document.getElementById('detail-quantite-boite').textContent = product['Qté Par Boite'];
+    document.getElementById('detail-modele-carton').textContent = product['Modèle Carton'];
+    document.getElementById('detail-quantite-carton').textContent = product['Qté par carton'];
+    document.getElementById('detail-duree-ddm').textContent = product['Durée DDM'];
+    document.getElementById('detail-ddm').textContent = product['DDM'];
+    document.getElementById('detail-fiche').href = product['Fiche Pdf'];
 
-    // Retour à la liste des produits
-    document.getElementById('breadcrumb-home').addEventListener('click', (e) => {
-        e.preventDefault();
-        productList.style.display = 'block';
-        productDetail.style.display = 'none';
-        const lastBreadcrumb = breadcrumb.lastChild;
-        if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Conditionnement') {
-            breadcrumb.removeChild(lastBreadcrumb);
-        }
-    });
+    // Mise à jour des breadcrumbs
+    const breadcrumbProduct = document.createElement('li');
+    breadcrumbProduct.className = 'breadcrumb-item active';
+    breadcrumbProduct.setAttribute('aria-current', 'page');
+    breadcrumbProduct.textContent = product['Nom Produit'];
+    breadcrumb.appendChild(breadcrumbProduct);
+
+    // Réactiver les événements de recherche et de filtrage
+    searchInput.addEventListener('input', () => filterAndSearchProducts(products));
+    clientFilter.addEventListener('change', () => filterAndSearchProducts(products));
+};
+
+// Mise à jour de la fonction retour à la liste des produits
+document.getElementById('breadcrumb-home').addEventListener('click', (e) => {
+    e.preventDefault();
+    productList.style.display = 'block';
+    productDetail.style.display = 'none';
+    const lastBreadcrumb = breadcrumb.lastChild;
+    if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Conditionnement') {
+        breadcrumb.removeChild(lastBreadcrumb);
+    }
+
+    // Réactiver les événements de recherche et de filtrage
+    searchInput.addEventListener('input', () => filterAndSearchProducts(products));
+    clientFilter.addEventListener('change', () => filterAndSearchProducts(products));
+});
+
 
     // Charger les données au démarrage
     loadData();
