@@ -109,24 +109,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Tableau des champs principaux à afficher
     const mainFields = [
-        { label: 'Client', value: product['Nom Client'] },
-        { label: 'Version', value: product['Version'] },
-        { label: 'Modèle Boîte', value: product['Modèle Boite'] },
-        { label: 'Quantité par boîte', value: product['Qté Par Boite'] },
-        { label: 'Modèle Carton', value: product['Modèle Carton'] },
-        { label: 'Quantité par carton', value: product['Qté par carton'] },
-        { label: 'Durée DDM', value: product['Durée DDM'] },
-        { label: 'DDM', value: product['DDM'] },
+       { id: 'detail-client', label: 'Client', value: product['Nom Client'] },
+        { id: 'detail-version', label: 'Version', value: product['Version'] },
+        { id: 'detail-modele-boite', label: 'Modèle Boîte', value: product['Modèle Boite'] },
+        { id: 'detail-quantite-boite', label: 'Quantité par boîte', value: product['Qté Par Boite'] },
+        { id: 'detail-modele-carton', label: 'Modèle Carton', value: product['Modèle Carton'] },
+        { id: 'detail-quantite-carton', label: 'Quantité par carton', value: product['Qté par carton'] },
+        { id: 'detail-duree-ddm', label: 'Durée DDM', value: product['Durée DDM'] },
+        { id: 'detail-ddm', label: 'DDM', value: product['DDM'] },
     ];
 
     // Tableau des autres paramètres à afficher
     const additionalFields = [
-        { label: 'Produit 1', value: product['Produit 1'] },
-        { label: 'Produit 2', value: product['Produit 2'] },
-        { label: 'Produit 3', value: product['Produit 3'] },
-        { label: 'Produit 4', value: product['Produit 4'] },
-        { label: 'Produit 5', value: product['Produit 5'] },
-        { label: 'Produit 6', value: product['Produit 6'] },
+        { id: 'detail-produit-1', label: 'Produit 1', value: product['Produit 1'] },
+        { id: 'detail-produit-2', label: 'Produit 2', value: product['Produit 2'] },
+        { id: 'detail-produit-3', label: 'Produit 3', value: product['Produit 3'] },
+        { id: 'detail-produit-4', label: 'Produit 4', value: product['Produit 4'] },
+        { id: 'detail-produit-5', label: 'Produit 5', value: product['Produit 5'] },
+        { id: 'detail-produit-6', label: 'Produit 6', value: product['Produit 6'] },
     ];
 
     // Conteneur pour les détails principaux
