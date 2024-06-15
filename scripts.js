@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('detail-fiche').href = product['Fiche Pdf'];
 
     // Mise à jour des breadcrumbs
-@@ -185,24 +67,3 @@ document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', () => {
     breadcrumbProduct.textContent = product['Nom Produit'];
     breadcrumb.appendChild(breadcrumbProduct);
 };
