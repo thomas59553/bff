@@ -132,8 +132,9 @@ const showProductDetails = (product) => {
     mainDetailsContainer.innerHTML = ''; // Réinitialiser le contenu
 
     // Conteneur pour les autres paramètres
-    const additionalDetailsContainer = document.getElementById('additional-details-container');
-    additionalDetailsContainer.innerHTML = ''; // Réinitialiser le contenu
+    const additionalDetailsSection = document.getElementById('additional-details-section');
+    additionalDetailsSection.innerHTML = ''; // Réinitialiser le contenu
+
 
     // Générer les champs principaux dynamiquement
     mainFields.forEach(field => {
