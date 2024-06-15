@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayProducts(filteredProducts);
     };
 
-    // Afficher les détails du produit
+      // Afficher les détails du produit
     const showProductDetails = (product) => {
         const detailPage = window.open('', '_blank');
         detailPage.document.write(`
