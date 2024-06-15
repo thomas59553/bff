@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const clientFilter = document.getElementById('client-filter');
     const productDetail = document.getElementById('product-detail');
     const breadcrumb = document.getElementById('breadcrumb');
+    const searchContainer = document.querySelector('.search-container'); // Assurez-vous d'avoir une classe search-container pour le conteneur de recherche et filtre
 
     // Déclarer products en dehors de loadData pour la rendre globale
     let products = [];
@@ -99,6 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const showProductDetails = (product) => {
         productList.style.display = 'none';
         productDetail.style.display = 'block';
+        searchContainer.style.display = 'none'; // Cacher la recherche et le filtre
 
         // Détails du produit
         document.getElementById('detail-img').src = product['URL Photo'];
@@ -126,6 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const returnToProductList = () => {
         productList.style.display = 'block';
         productDetail.style.display = 'none';
+        searchContainer.style.display = 'block'; // Réafficher la recherche et le filtre
         const lastBreadcrumb = breadcrumb.lastChild;
         if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Conditionnement') {
             breadcrumb.removeChild(lastBreadcrumb);
