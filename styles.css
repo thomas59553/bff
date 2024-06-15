@@ -1,7 +1,16 @@
 .product-card {
     margin-bottom: 20px;
+    background-color: #f8f9fa; /* Fond gris */
+    cursor: pointer;
 }
 .product-card img {
     max-width: 100%;
     height: auto;
+}
+.client-group {
+    width: 100%;
+    margin-bottom: 40px;
+}
+.client-name {
+    margin-bottom: 20px;
 }
