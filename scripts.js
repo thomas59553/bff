@@ -176,10 +176,9 @@ const showProductDetails = (product) => {
 
         compositionContainer.appendChild(compositionDetailsContainer);
     }
-
-   // Mise à jour des breadcrumbs
+    // Mise à jour des breadcrumbs
     // Nettoyer les anciens éléments avant d'ajouter le nouveau
-    while (breadcrumb.children.length > 2) {
+    while (breadcrumb.children.length > 1) {  // Laisser seulement le lien d'accueil
         breadcrumb.removeChild(breadcrumb.lastChild);
     }
 
@@ -202,6 +201,11 @@ const returnToProductList = () => {
     filterAndSearchProducts(products);  // Mettre à jour l'affichage avec les filtres et la recherche actifs
 };
 
+// Ajoutez un gestionnaire d'événements pour le lien d'accueil dans le breadcrumb
+document.getElementById('breadcrumb-home').addEventListener('click', (event) => {
+    event.preventDefault();
+    returnToProductList();
+});
     // Charger les données au démarrage
     loadData();
 });
