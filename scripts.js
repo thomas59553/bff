@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayProducts(filteredProducts);
     };
 
-      // Afficher les détails du produit
+ // Afficher les détails du produit
     const showProductDetails = (product) => {
         const detailPage = window.open('', '_blank');
         detailPage.document.write(`
@@ -101,7 +101,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
             </head>
             <body>
-                <div class="container mt-5">
+                <!-- Header -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">
+                        <img src="logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-top">
+                        Catalogue des Produits
+                    </a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Accueil</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Recettes</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container mt-4">
+                    <!-- Breadcrumb -->
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="#" onclick="window.close()">Catalogue des Produits</a></li>
@@ -109,21 +130,31 @@ document.addEventListener('DOMContentLoaded', () => {
                         </ol>
                     </nav>
                     <div class="card">
-                        <img src="${product['URL Photo']}" class="card-img-top" alt="${product['Nom Produit']}">
+                        <img src="${product['URL Photo']}" class="card-img-top img-fluid" alt="${product['Nom Produit']}">
                         <div class="card-body">
                             <h5 class="card-title">${product['Nom Produit']}</h5>
-                            <p class="card-text"><strong>Client:</strong> ${product['Nom Client']}</p>
-                            <p class="card-text"><strong>Version:</strong> ${product['Version']}</p>
-                            <p class="card-text"><strong>Modèle Boîte:</strong> ${product['Modèle Boite']}</p>
-                            <p class="card-text"><strong>Quantité par boîte:</strong> ${product['Qté Par Boite']}</p>
-                            <p class="card-text"><strong>Modèle Carton:</strong> ${product['Modèle Carton']}</p>
-                            <p class="card-text"><strong>Quantité par carton:</strong> ${product['Qté par carton']}</p>
-                            <p class="card-text"><strong>Durée DDM:</strong> ${product['Durée DDM']}</p>
-                            <p class="card-text"><strong>DDM:</strong> ${product['DDM']}</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p class="card-text"><strong>Client:</strong> ${product['Nom Client']}</p>
+                                    <p class="card-text"><strong>Version:</strong> ${product['Version']}</p>
+                                    <p class="card-text"><strong>Modèle Boîte:</strong> ${product['Modèle Boite']}</p>
+                                    <p class="card-text"><strong>Quantité par boîte:</strong> ${product['Qté Par Boite']}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="card-text"><strong>Modèle Carton:</strong> ${product['Modèle Carton']}</p>
+                                    <p class="card-text"><strong>Quantité par carton:</strong> ${product['Qté par carton']}</p>
+                                    <p class="card-text"><strong>Durée DDM:</strong> ${product['Durée DDM']}</p>
+                                    <p class="card-text"><strong>DDM:</strong> ${product['DDM']}</p>
+                                </div>
+                            </div>
                             <a href="${product['Fiche Pdf']}" class="btn btn-primary" target="_blank">Voir la fiche produit</a>
                         </div>
                     </div>
                 </div>
+                <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+                <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
             </body>
             </html>
         `);
