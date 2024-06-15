@@ -177,9 +177,12 @@ const showProductDetails = (product) => {
         compositionContainer.appendChild(compositionDetailsContainer);
     }
 
-    document.getElementById('detail-fiche').href = product['Fiche Pdf'];
+   // Mise à jour des breadcrumbs
+    // Nettoyer les anciens éléments avant d'ajouter le nouveau
+    while (breadcrumb.children.length > 2) {
+        breadcrumb.removeChild(breadcrumb.lastChild);
+    }
 
-    // Mise à jour des breadcrumbs
     const breadcrumbProduct = document.createElement('li');
     breadcrumbProduct.className = 'breadcrumb-item active';
     breadcrumbProduct.setAttribute('aria-current', 'page');
@@ -198,11 +201,6 @@ const returnToProductList = () => {
     }
     filterAndSearchProducts(products);  // Mettre à jour l'affichage avec les filtres et la recherche actifs
 };
-
-    document.getElementById('breadcrumb-home').addEventListener('click', (e) => {
-        e.preventDefault();
-        returnToProductList();
-    });
 
     // Charger les données au démarrage
     loadData();
