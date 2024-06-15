@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         displayProducts(filteredProducts);
     };
 
- const showProductDetails = (product) => {
+const showProductDetails = (product) => {
     productList.style.display = 'none';
     productDetail.style.display = 'block';
     searchContainer.style.display = 'none'; // Cacher la recherche et le filtre
@@ -106,31 +106,39 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('detail-img').alt = product['Nom Produit'];
     document.getElementById('detail-title').textContent = product['Nom Produit'];
 
-    // Tableau des champs à afficher
-    const fields = [
-        { id: 'detail-client', label: 'Client', value: product['Nom Client'] },
-        { id: 'detail-version', label: 'Version', value: product['Version'] },
-        { id: 'detail-modele-boite', label: 'Modèle Boîte', value: product['Modèle Boite'] },
-        { id: 'detail-quantite-boite', label: 'Quantité par boîte', value: product['Qté Par Boite'] },
-        { id: 'detail-modele-carton', label: 'Modèle Carton', value: product['Modèle Carton'] },
-        { id: 'detail-quantite-carton', label: 'Quantité par carton', value: product['Qté par carton'] },
-        { id: 'detail-duree-ddm', label: 'Durée DDM', value: product['Durée DDM'] },
-        { id: 'detail-ddm', label: 'DDM', value: product['DDM'] },
-        { id: 'detail-fiche-pdf', label: 'Fiche PDF', value: product['Fiche Pdf'] },
-        { id: 'detail-produit-1', label: 'Produit 1', value: product['Produit 1'] },
-        { id: 'detail-produit-2', label: 'Produit 2', value: product['Produit 2'] },
-        { id: 'detail-produit-3', label: 'Produit 3', value: product['Produit 3'] },
-        { id: 'detail-produit-4', label: 'Produit 4', value: product['Produit 4'] },
-        { id: 'detail-produit-5', label: 'Produit 5', value: product['Produit 5'] },
-        { id: 'detail-produit-6', label: 'Produit 6', value: product['Produit 6'] },
+    // Tableau des champs principaux à afficher
+    const mainFields = [
+        { label: 'Client', value: product['Nom Client'] },
+        { label: 'Version', value: product['Version'] },
+        { label: 'Modèle Boîte', value: product['Modèle Boite'] },
+        { label: 'Quantité par boîte', value: product['Qté Par Boite'] },
+        { label: 'Modèle Carton', value: product['Modèle Carton'] },
+        { label: 'Quantité par carton', value: product['Qté par carton'] },
+        { label: 'Durée DDM', value: product['Durée DDM'] },
+        { label: 'DDM', value: product['DDM'] },
+        { label: 'Fiche PDF', value: product['Fiche Pdf'] },
     ];
 
-    // Conteneur pour les détails
+    // Tableau des autres paramètres à afficher (composition des produits)
+    const compositionFields = [
+        { label: 'Produit 1', value: product['Produit 1'] },
+        { label: 'Produit 2', value: product['Produit 2'] },
+        { label: 'Produit 3', value: product['Produit 3'] },
+        { label: 'Produit 4', value: product['Produit 4'] },
+        { label: 'Produit 5', value: product['Produit 5'] },
+        { label: 'Produit 6', value: product['Produit 6'] },
+    ];
+
+    // Conteneur pour les détails principaux
     const detailsContainer = document.getElementById('details-container');
     detailsContainer.innerHTML = ''; // Réinitialiser le contenu
 
-    // Générer les champs dynamiquement
-    fields.forEach(field => {
+    // Conteneur pour la composition des produits
+    const compositionContainer = document.getElementById('composition-container');
+    compositionContainer.innerHTML = ''; // Réinitialiser le contenu
+
+    // Générer les champs principaux dynamiquement
+    mainFields.forEach(field => {
         if (field.value) {
             const colDiv = document.createElement('div');
             colDiv.className = 'col-lg-3 col-md-4 col-sm-6 mb-2';
@@ -138,6 +146,35 @@ document.addEventListener('DOMContentLoaded', () => {
             detailsContainer.appendChild(colDiv);
         }
     });
+
+    // Vérifier si au moins un produit est présent
+    let hasComposition = false;
+    compositionFields.forEach(field => {
+        if (field.value) {
+            hasComposition = true;
+        }
+    });
+
+    // Si au moins un produit est présent, ajouter le titre et les champs
+    if (hasComposition) {
+        const title = document.createElement('h6');
+        title.textContent = 'Autres Paramètres';
+        compositionContainer.appendChild(title);
+
+        const compositionDetailsContainer = document.createElement('div');
+        compositionDetailsContainer.className = 'row';
+
+        compositionFields.forEach(field => {
+            if (field.value) {
+                const colDiv = document.createElement('div');
+                colDiv.className = 'col-lg-3 col-md-4 col-sm-6 mb-2';
+                colDiv.innerHTML = `<p class="card-text"><strong>${field.label}:</strong> <span>${field.value}</span></p>`;
+                compositionDetailsContainer.appendChild(colDiv);
+            }
+        });
+
+        compositionContainer.appendChild(compositionDetailsContainer);
+    }
 
     document.getElementById('detail-fiche').href = product['Fiche Pdf'];
 
@@ -149,18 +186,17 @@ document.addEventListener('DOMContentLoaded', () => {
     breadcrumb.appendChild(breadcrumbProduct);
 };
 
-
-    // Retour à la liste des produits
-    const returnToProductList = () => {
-        productList.style.display = 'block';
-        productDetail.style.display = 'none';
-        searchContainer.style.display = 'block'; // Réafficher la recherche et le filtre
-        const lastBreadcrumb = breadcrumb.lastChild;
-        if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Conditionnement') {
-            breadcrumb.removeChild(lastBreadcrumb);
-        }
-        filterAndSearchProducts(products);  // Mettre à jour l'affichage avec les filtres et la recherche actifs
-    };
+// Retour à la liste des produits
+const returnToProductList = () => {
+    productList.style.display = 'block';
+    productDetail.style.display = 'none';
+    searchContainer.style.display = 'block'; // Réafficher la recherche et le filtre
+    const lastBreadcrumb = breadcrumb.lastChild;
+    if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Conditionnement') {
+        breadcrumb.removeChild(lastBreadcrumb);
+    }
+    filterAndSearchProducts(products);  // Mettre à jour l'affichage avec les filtres et la recherche actifs
+};
 
     document.getElementById('breadcrumb-home').addEventListener('click', (e) => {
         e.preventDefault();
