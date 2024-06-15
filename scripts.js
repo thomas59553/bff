@@ -42,14 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="card-body">
                         <h5 class="card-title">${product['Nom Produit']}</h5>
                         <p class="card-text"><strong>Client:</strong> ${product['Nom Client']}</p>
-                        <p class="card-text"><strong>Version:</strong> ${product['Version']}</p>
-                        <p class="card-text"><strong>Modèle Boîte:</strong> ${product['Modèle Boite']}</p>
-                        <p class="card-text"><strong>Quantité par boîte:</strong> ${product['Qté Par Boite']}</p>
-                        <p class="card-text"><strong>Modèle Carton:</strong> ${product['Modèle Carton']}</p>
-                        <p class="card-text"><strong>Quantité par carton:</strong> ${product['Qté par carton']}</p>
-                        <p class="card-text"><strong>Durée DDM:</strong> ${product['Durée DDM']}</p>
-                        <p class="card-text"><strong>DDM:</strong> ${product['DDM']}</p>
-                        <a href="${product['Fiche Pdf']}" class="btn btn-primary" target="_blank">Voir la fiche produit</a>
+                        <p class="card-text"><strong>Version:</strong> ${product['Version']}</p>                                        
                     </div>
                 </div>
             `;
