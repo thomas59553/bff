@@ -35,25 +35,29 @@ document.addEventListener('DOMContentLoaded', () => {
         productList.innerHTML = '';
         products.forEach(product => {
             const productCard = document.createElement('div');
-            productCard.className = 'product-card';
+            productCard.className = 'col-md-4 mb-4';
             productCard.innerHTML = `
-                <img src="${product['URL Photo']}" alt="${product['Nom Produit']}">
-                <h3>${product['Nom Produit']}</h3>
-                <p>Client: ${product['Nom Client']}</p>
-                <p>Version: ${product['Version']}</p>
-                <p>Modèle Boîte: ${product['Modèle Boite']}</p>
-                <p>Quantité par boîte: ${product['Qté Par Boite']}</p>
-                <p>Modèle Carton: ${product['Modèle Carton']}</p>
-                <p>Quantité par carton: ${product['Qté par carton']}</p>
-                <p>Durée DDM: ${product['Durée DDM']}</p>
-                <p>DDM: ${product['DDM']}</p>
-                <a href="${product['Fiche Pdf']}" target="_blank">Voir la fiche produit</a>
+                <div class="card h-100">
+                    <img src="${product['URL Photo']}" class="card-img-top" alt="${product['Nom Produit']}">
+                    <div class="card-body">
+                        <h5 class="card-title">${product['Nom Produit']}</h5>
+                        <p class="card-text"><strong>Client:</strong> ${product['Nom Client']}</p>
+                        <p class="card-text"><strong>Version:</strong> ${product['Version']}</p>
+                        <p class="card-text"><strong>Modèle Boîte:</strong> ${product['Modèle Boite']}</p>
+                        <p class="card-text"><strong>Quantité par boîte:</strong> ${product['Qté Par Boite']}</p>
+                        <p class="card-text"><strong>Modèle Carton:</strong> ${product['Modèle Carton']}</p>
+                        <p class="card-text"><strong>Quantité par carton:</strong> ${product['Qté par carton']}</p>
+                        <p class="card-text"><strong>Durée DDM:</strong> ${product['Durée DDM']}</p>
+                        <p class="card-text"><strong>DDM:</strong> ${product['DDM']}</p>
+                        <a href="${product['Fiche Pdf']}" class="btn btn-primary" target="_blank">Voir la fiche produit</a>
+                    </div>
+                </div>
             `;
             productList.appendChild(productCard);
         });
     };
 
-  // Filtrage et recherche des produits
+    // Filtrage et recherche des produits
     const filterAndSearchProducts = (products) => {
         const searchText = searchInput.value.toLowerCase();
         const selectedClient = clientFilter.value;
