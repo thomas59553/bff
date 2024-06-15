@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', () => {
         productList.style.display = 'block';
         productDetail.style.display = 'none';
         const lastBreadcrumb = breadcrumb.lastChild;
-        if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Accueil') {
+        if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Conditionnement') {
             breadcrumb.removeChild(lastBreadcrumb);
         }
     });
