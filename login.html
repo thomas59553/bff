@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion Admin</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f8f9fa;
+    }
+    .login-container {
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+    }
+    .login-container img {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <img src="logo.png" alt="Logo">
+    <h2>Connexion Admin</h2>
+    <form action="authenticate.php" method="post">
+      <div class="form-group">
+        <input type="text" class="form-control" name="username" placeholder="Nom d'utilisateur" required>
+      </div>
+      <div class="form-group">
+        <input type="password" class="form-control" name="password" placeholder="Mot de passe" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Connexion</button>
+    </form>
+  </div>
+</body>
+</html>
