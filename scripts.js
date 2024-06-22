@@ -6,20 +6,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const breadcrumb = document.getElementById('breadcrumb');
     const searchContainer = document.querySelector('.search-container'); // Assurez-vous d'avoir une classe search-container pour le conteneur de recherche et filtre
 
-    // Déclarer products en dehors de loadData pour la rendre globale
     let products = [];
 
-    // Fonction pour charger les données JSON
     const loadData = async () => {
         try {
-            const response = await fetch('data.json');
+            const response = await fetch('fetch_data.php');
             if (!response.ok) {
                 throw new Error(`HTTP error! Status: ${response.status}`);
             }
-            products = await response.json(); // Initialiser products
+            products = await response.json();
             displayProducts(products);
 
-            // Remplir le filtre de clients
+            // Initialiser window.sharedData pour le rendre accessible globalement
+            window.sharedData = products.map(product => ({
+                id: product.id
+            }));
+
             const clients = [...new Set(products.map(product => product['Nom Client']))];
             clients.forEach(client => {
                 const option = document.createElement('option');
@@ -28,7 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 clientFilter.appendChild(option);
             });
 
-            // Événements pour la recherche et le filtrage
             searchInput.addEventListener('input', () => filterAndSearchProducts(products));
             clientFilter.addEventListener('change', () => filterAndSearchProducts(products));
         } catch (error) {
@@ -36,7 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Fonction pour afficher les produits groupés par client
     const displayProducts = (products) => {
         productList.innerHTML = '';
 
@@ -83,7 +83,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    // Filtrage et recherche des produits
     const filterAndSearchProducts = (products) => {
         const searchText = searchInput.value.toLowerCase();
         const selectedClient = clientFilter.value;
@@ -96,116 +95,121 @@ document.addEventListener('DOMContentLoaded', () => {
         displayProducts(filteredProducts);
     };
 
-const showProductDetails = (product) => {
-    productList.style.display = 'none';
-    productDetail.style.display = 'block';
-    searchContainer.style.display = 'none'; // Cacher la recherche et le filtre
+    const showProductDetails = (product) => {
+        productList.style.display = 'none';
+        productDetail.style.display = 'block';
+        searchContainer.style.display = 'none';
 
-    // Détails du produit
-    document.getElementById('detail-img').src = product['URL Photo'];
-    document.getElementById('detail-img').alt = product['Nom Produit'];
-    document.getElementById('detail-title').textContent = product['Nom Produit'];
+        document.getElementById('detail-img').src = product['URL Photo'];
+        document.getElementById('detail-img').alt = product['Nom Produit'];
+        document.getElementById('detail-title').textContent = product['Nom Produit'];
 
-    // Tableau des champs principaux à afficher
-    const mainFields = [
-        { label: 'Client', value: product['Nom Client'] },
-        { label: 'Version', value: product['Version'] },
-        { label: 'Modèle Boîte', value: product['Modèle Boite'] },
-        { label: 'Quantité par boîte', value: product['Qté Par Boite'] },
-        { label: 'Modèle Carton', value: product['Modèle Carton'] },
-        { label: 'Quantité par carton', value: product['Qté par carton'] },
-        { label: 'Durée DDM', value: product['Durée DDM'] },
-        { label: 'DDM', value: product['DDM'] },
-        { label: 'Fiche PDF', value: product['Fiche Pdf'] },
-    ];
+        const mainFields = [
+            { label: 'Client', value: product['Nom Client'] },
+            { label: 'Version', value: product['Version'] },
+            { label: 'Modèle Boîte', value: product['Modèle Boite'] },
+            { label: 'Quantité par boîte', value: product['Qté Par Boite'] },
+            { label: 'Modèle Carton', value: product['Modèle Carton'] },
+            { label: 'Quantité par carton', value: product['Qté par carton'] },
+            { label: 'Durée DDM', value: product['Durée DDM'] },
+            { label: 'DDM', value: product['DDM'] },
+            { label: 'Fiche PDF', value: product['Fiche Pdf'] },
+        ];
 
-    // Tableau des autres paramètres à afficher (composition des produits)
-    const compositionFields = [
-        { label: 'Produit 1', value: product['Produit 1'] },
-        { label: 'Produit 2', value: product['Produit 2'] },
-        { label: 'Produit 3', value: product['Produit 3'] },
-        { label: 'Produit 4', value: product['Produit 4'] },
-        { label: 'Produit 5', value: product['Produit 5'] },
-        { label: 'Produit 6', value: product['Produit 6'] },
-    ];
+        // Émettre un événement personnalisé avec l'ID du produit
+        const event = new CustomEvent('productViewed', { detail: { id: product.id } });
+        document.dispatchEvent(event);
 
-    // Conteneur pour les détails principaux
-    const detailsContainer = document.getElementById('details-container');
-    detailsContainer.innerHTML = ''; // Réinitialiser le contenu
+        const detailsContainer = document.getElementById('details-container');
+        detailsContainer.innerHTML = '';
 
-    // Conteneur pour la composition des produits
-    const compositionContainer = document.getElementById('composition-container');
-    compositionContainer.innerHTML = ''; // Réinitialiser le contenu
+        const compositionContainer = document.getElementById('composition-container');
+        compositionContainer.innerHTML = '';
 
-    // Générer les champs principaux dynamiquement
-    mainFields.forEach(field => {
-        if (field.value) {
-            const colDiv = document.createElement('div');
-            colDiv.className = 'col-lg-3 col-md-4 col-sm-6 mb-2';
-            colDiv.innerHTML = `<p class="card-text"><strong>${field.label}:</strong> <span>${field.value}</span></p>`;
-            detailsContainer.appendChild(colDiv);
-        }
-    });
+        const palettisationContainer = document.getElementById('palettisation-container');
+        palettisationContainer.innerHTML = '';
 
-    // Vérifier si au moins un produit est présent
-    let hasComposition = false;
-    compositionFields.forEach(field => {
-        if (field.value) {
-            hasComposition = true;
-        }
-    });
-
-    // Si au moins un produit est présent, ajouter le titre et les champs
-    if (hasComposition) {
-         const title = document.createElement('h5');
-        title.textContent = 'Autres Paramètres';
-        title.className = 'text-center mt-4'; // Centré et avec une marge en haut
-        compositionContainer.appendChild(title);
-
-        const compositionDetailsContainer = document.createElement('div');
-        compositionDetailsContainer.className = 'row';
-
-        compositionFields.forEach(field => {
+      
+        mainFields.forEach(field => {
             if (field.value) {
                 const colDiv = document.createElement('div');
                 colDiv.className = 'col-lg-3 col-md-4 col-sm-6 mb-2';
                 colDiv.innerHTML = `<p class="card-text"><strong>${field.label}:</strong> <span>${field.value}</span></p>`;
-                compositionDetailsContainer.appendChild(colDiv);
+                detailsContainer.appendChild(colDiv);
             }
         });
 
-        compositionContainer.appendChild(compositionDetailsContainer);
-    }
-    // Mise à jour des breadcrumbs
-    // Nettoyer les anciens éléments avant d'ajouter le nouveau
-    while (breadcrumb.children.length > 1) {  // Laisser seulement le lien d'accueil
-        breadcrumb.removeChild(breadcrumb.lastChild);
-    }
+        if (product['Composition'] && Object.keys(product['Composition']).length > 0) {
+            compositionContainer.style.display = 'block';
+            const title = document.createElement('h5');
+            title.className = 'text-center';
+            title.textContent = 'Composition';
+            compositionContainer.appendChild(title);
 
-    const breadcrumbProduct = document.createElement('li');
-    breadcrumbProduct.className = 'breadcrumb-item active';
-    breadcrumbProduct.setAttribute('aria-current', 'page');
-    breadcrumbProduct.textContent = product['Nom Produit'];
-    breadcrumb.appendChild(breadcrumbProduct);
-};
+            const compositionDetailsContainer = document.createElement('div');
+            compositionDetailsContainer.className = 'row';
 
-// Retour à la liste des produits
-const returnToProductList = () => {
-    productList.style.display = 'block';
-    productDetail.style.display = 'none';
-    searchContainer.style.display = 'block'; // Réafficher la recherche et le filtre
-    const lastBreadcrumb = breadcrumb.lastChild;
-    if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Conditionnement') {
-        breadcrumb.removeChild(lastBreadcrumb);
-    }
-    filterAndSearchProducts(products);  // Mettre à jour l'affichage avec les filtres et la recherche actifs
-};
+            for (const [key, value] of Object.entries(product['Composition'])) {
+                const colDiv = document.createElement('div');
+                colDiv.className = 'col-lg-3 col-md-4 col-sm-6 mb-2';
+                colDiv.innerHTML = `<p class="card-text"><strong>${key}:</strong> <span>${value}</span></p>`;
+                compositionDetailsContainer.appendChild(colDiv);
+            }
 
-// Ajoutez un gestionnaire d'événements pour le lien d'accueil dans le breadcrumb
-document.getElementById('breadcrumb-home').addEventListener('click', (event) => {
-    event.preventDefault();
-    returnToProductList();
-});
-    // Charger les données au démarrage
+            compositionContainer.appendChild(compositionDetailsContainer);
+        } else {
+            compositionContainer.style.display = 'none';
+        }
+
+        if (product['Palettisation'] && Object.keys(product['Palettisation']).length > 0) {
+            palettisationContainer.style.display = 'block';
+            const title = document.createElement('h5');
+            title.className = 'text-center';
+            title.textContent = 'Palettisation';
+            palettisationContainer.appendChild(title);
+
+            const palettisationDetailsContainer = document.createElement('div');
+            palettisationDetailsContainer.className = 'row';
+
+            for (const [key, value] of Object.entries(product['Palettisation'])) {
+                const colDiv = document.createElement('div');
+                colDiv.className = 'col-lg-3 col-md-4 col-sm-6 mb-2';
+                colDiv.innerHTML = `<p class="card-text"><strong>${key}:</strong> <span>${value}</span></p>`;
+                palettisationDetailsContainer.appendChild(colDiv);
+            }
+
+            palettisationContainer.appendChild(palettisationDetailsContainer);
+
+      
+        } else {
+            palettisationContainer.style.display = 'none';
+        }
+
+        while (breadcrumb.children.length > 1) {
+            breadcrumb.removeChild(breadcrumb.lastChild);
+        }
+        
+        const breadcrumbProduct = document.createElement('li');
+        breadcrumbProduct.className = 'breadcrumb-item active';
+        breadcrumbProduct.setAttribute('aria-current', 'page');
+        breadcrumbProduct.textContent = product['Nom Produit'];
+        breadcrumb.appendChild(breadcrumbProduct);
+    };
+
+      const returnToProductList = () => {
+        productList.style.display = 'block';
+        productDetail.style.display = 'none';
+        searchContainer.style.display = 'block';
+        const lastBreadcrumb = breadcrumb.lastChild;
+        if (lastBreadcrumb && lastBreadcrumb.textContent !== 'Conditionnement') {
+            breadcrumb.removeChild(lastBreadcrumb);
+        }
+    };
+
+    document.getElementById('breadcrumb-home').addEventListener('click', (event) => {
+        event.preventDefault();
+        returnToProductList();
+    });
+
     loadData();
 });
