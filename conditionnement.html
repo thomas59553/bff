@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catalogue des Produits</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+   <script src="https://kit.fontawesome.com/58460b5892.js" crossorigin="anonymous"></script>
+    <!-- Lightbox CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+   
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -65,26 +68,53 @@
     <!-- Liste des produits -->
     <div class="container" id="product-list"></div>
 
-<!-- Détails du produit -->
-<div class="container mt-4" id="product-detail" style="display: none;">
-    <div class="card">
-        <img src="" id="detail-img" class="card-img-top img-fluid" alt="">
-        <div class="card-body">
-            <h5 class="card-title" id="detail-title"></h5>
-            <div class="row" id="details-container">
-                <!-- Les détails du produit seront générés ici par JavaScript -->
-            </div>
-            <div class="row mt-4" id="composition-container">
-                <!-- La composition des produits sera générée ici par JavaScript -->
-            </div>
+    <!-- Détails du produit -->
+    <div class="container mt-4" id="product-detail" style="display: none;">
+        <div class="card">
+            <img src="" id="detail-img" class="card-img-top img-fluid" alt="">
+            <div class="card-body">
+                <h5 class="card-title" id="detail-title"></h5>
+                <div class="row" id="details-container">
+                    <!-- Les détails du produit seront générés ici par JavaScript -->
+                </div>                
+           </div>
         </div>
-    </div>
-</div>
 
+ <div class="card" >
+ <div class="card-body" id="composition-container"  style="display: none;">  
+     <div class="row" id="details-container">
+                <h5 class="card-title" id="composition-title"></h5>  
+                 <!-- La composition des produits sera générée ici par JavaScript -->
+                </div> 
+           </div>
+        </div>
+    
+   
+
+    <div class="card" >
+ <div class="card-body" id="palettisation-container"  style="display: none;">
+    <div class="row" id="details-container"> 
+                <h5 class="card-title" id="palettisation-title"></h5> 
+                 <!-- La palettisation sera générée ici par JavaScript -->
+                   <div id="canvas-container">x</div>
+                </div>   
+                 
+                         
+           </div> 
+        </div>
+    
+
+
+
+ </div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="scripts.js"></script>
+   <!-- <script src="palette.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
 </body>
 </html>
