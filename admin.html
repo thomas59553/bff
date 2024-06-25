@@ -1,25 +1,124 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Administration</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      padding-top: 50px;
-      background-color: #f8f9fa;
-    }
-    .admin-container {
-      text-align: center;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration des Produits</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-  <div class="container admin-container">
-    <h1>Administration</h1>
-    <p>Bienvenue dans la section d'administration.</p>
-    <!-- Ajoutez ici le contenu de votre page d'administration -->
-  </div>
+    <div class="container mt-5">
+        <h1>Administration des Produits</h1>
+        <button class="btn btn-primary mb-3" onclick="showProductForm()">Ajouter un Produit</button>
+        <div id="product-table" class="table-responsive">
+            <!-- Table des produits -->
+        </div>
+    </div>
+
+    <!-- Modale pour l'édition des produits -->
+    <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="productModalLabel">Ajouter un Produit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form">
+                        <!-- Champs de formulaire pour les détails du produit -->
+                        <div class="form-group">
+                            <label for="product-name">Nom du Produit</label>
+                            <input type="text" class="form-control" id="product-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-client">Nom du Client</label>
+                            <input type="text" class="form-control" id="product-client" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-weight">Poids</label>
+                            <input type="text" class="form-control" id="product-weight" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-photo-url">URL Photo</label>
+                            <input type="text" class="form-control" id="product-photo-url">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-photo-file">Uploader Photo</label>
+                            <input type="file" class="form-control-file" id="product-photo-file">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-photo-preview">Aperçu Photo</label>
+                            <img id="product-photo-preview" src="" alt="Aperçu" style="max-width: 100%;">
+                        </div>
+                        <div class="form-group">
+                            <label for="product-fiche">Fiche PDF</label>
+                            <input type="text" class="form-control" id="product-fiche" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-model">Modèle Boite</label>
+                            <input type="text" class="form-control" id="product-model" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-carton-model">Modèle Carton</label>
+                            <input type="text" class="form-control" id="product-carton-model" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-carton-qty">Qté par Carton</label>
+                            <input type="number" class="form-control" id="product-carton-qty" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-ddm">DDM</label>
+                            <input type="date" class="form-control" id="product-ddm" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-ddm-duration">Durée DDM</label>
+                            <input type="text" class="form-control" id="product-ddm-duration" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="product-particularities">Particularités</label>
+                            <input type="text" class="form-control" id="product-particularities" required>
+                        </div>
+                        <!-- Champs pour Palettisation -->
+                        <div class="form-group">
+                            <label>Palettisation</label>
+                            <div id="palettisation-fields">
+                                 <div class="form-group">
+                        <label for="palettisation-longueur">Longueur</label>
+                        <input type="number" class="form-control mb-2" id="palettisation-longueur" required>
+                        <label for="palettisation-largeur">Largeur</label>
+                        <input type="number" class="form-control mb-2" id="palettisation-largeur" required>
+                        <label for="palettisation-hauteur">Hauteur Max</label>
+                        <input type="number" class="form-control mb-2" id="palettisation-hauteur" required>
+                    </div>
+                          </div>
+                        <!-- Champs pour Composition -->
+                        <div class="form-group">
+                            <label>Composition</label>
+                            <div id="composition-fields">
+                                <!-- Champs dynamiques pour Composition -->
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="addCompositionField()">Ajouter Composition</button>
+                        </div>
+                        <!-- Champs pour Gallerie -->
+                        <div class="form-group">
+                            <label>Gallerie</label>
+                            <div id="gallerie-fields">
+                                <!-- Champs dynamiques pour Gallerie -->
+                            </div>
+                            <button type="button" class="btn btn-secondary" onclick="addGallerieField()">Ajouter Image Gallerie</button>
+                        </div>
+                        <button type="submit" class="btn btn-success">Sauvegarder</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>
